@@ -1,3 +1,7 @@
+output "kusto_database_principal_assignments_id" {
+  description = "Map of id values across all kusto_database_principal_assignments, keyed the same as var.kusto_database_principal_assignments"
+  value       = { for k, v in azurerm_kusto_database_principal_assignment.kusto_database_principal_assignments : k => v.id }
+}
 output "kusto_database_principal_assignments_cluster_name" {
   description = "Map of cluster_name values across all kusto_database_principal_assignments, keyed the same as var.kusto_database_principal_assignments"
   value       = { for k, v in azurerm_kusto_database_principal_assignment.kusto_database_principal_assignments : k => v.cluster_name }
