@@ -22,22 +22,6 @@ EOT
     role                = string
     tenant_id           = string
   }))
-  validation {
-    condition = alltrue([
-      for k, v in var.kusto_database_principal_assignments : (
-        length(v.tenant_id) > 0
-      )
-    ])
-    error_message = "must not be empty"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.kusto_database_principal_assignments : (
-        length(v.principal_id) > 0
-      )
-    ])
-    error_message = "must not be empty"
-  }
   # --- Unconfirmed validation candidates, derived from azurerm_kusto_database_principal_assignment's provider source ---
   # Not auto-enabled: either a bespoke provider validator we can't safely translate,
   # or a path that crosses a list-typed block (needs its own for_each wrapping).
@@ -76,6 +60,12 @@ EOT
   #   condition: length(value) <= 260
   #   message:   [from validate.DatabasePrincipalAssignmentName: invalid when len(value) > 260]
   #   source:    [from validate.DatabasePrincipalAssignmentName: invalid when len(value) > 260]
+  # path: tenant_id
+  #   condition: length(value) > 0
+  #   message:   must not be empty
+  # path: principal_id
+  #   condition: length(value) > 0
+  #   message:   must not be empty
   # path: principal_type
   #   source:    validation.StringInSlice value list is not a literal []string - likely a generated PossibleValuesFor*() helper; resolve separately
   # path: role
